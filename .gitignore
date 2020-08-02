@@ -4,5 +4,12 @@
 # dotenv environment variables file
 .env
 
+# Services from another repo
+src/services
+
 # Dependency directories
 node_modules/
+
+# assets
+uncompressed
+public/img
