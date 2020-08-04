@@ -30,5 +30,11 @@ export default createMuiTheme({
     h4: {
       fontSize: 14,
     },
+    h5: {
+      fontSize: 10,
+    },
+    h6: {
+      fontSize: 8,
+    },
   },
 });
