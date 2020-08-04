@@ -46,6 +46,13 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
    * Price History actions
    */
 
+  const priceHistoryUpdate = ({ target }) => {
+    updateProperty("priceHistory", {
+      ...store.priceHistory,
+      [target.name]: target.value,
+    });
+  }
+
   const priceHistoryGetMeasurement = async () => {
     const currentTime = (new Date()).getTime();
     const { priceHistory } = getStore();
@@ -135,6 +142,7 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     exchangeInfoRefresh,
     followingAddPriceAlert,
     followingRemovePriceAlert,
+    priceHistoryUpdate,
     priceHistoryGetMeasurement,
   };
 };
