@@ -7,9 +7,14 @@ export const initialStateStore = {
     symbols: [],
   },
   priceHistory: {
-    maxMeasurementsPerSymbol: 60,
+    maxMeasurementsPerSymbol: 200,
     measurementsIntervalSeconds: 120,
     lastMeasurementsTakenAt: (new Date()).getTime(),
+  },
+  alerts: {
+    telegramUserId: "",
+    alertIntervalMinutes: 5,
+    priceVariationForAlert: 5,
   },
   following: {},
   scanning: {
@@ -42,16 +47,23 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     return await response.json();
   }
 
+  /** 
+   * * Rececives input's onChange event as parameter. 
+   * * Input's name has format "storeProperty.internalPropertyName". Example: "priceHistory.maxMeasurementsPerSymbol"
+   */
+  const updatePropertyFromInput = ({ target }) => {
+    const [storeProperty, internalProperty] = target.name.split(".");
+    console.log("--storeProperty", storeProperty)
+    console.log("--internalProperty", internalProperty)
+    updateProperty(storeProperty, {
+      ...store[storeProperty],
+      [internalProperty]: target.value,
+    });
+  }
+
   /**
    * Price History actions
    */
-
-  const priceHistoryUpdate = ({ target }) => {
-    updateProperty("priceHistory", {
-      ...store.priceHistory,
-      [target.name]: target.value,
-    });
-  }
 
   const priceHistoryGetMeasurement = async () => {
     const currentTime = (new Date()).getTime();
@@ -138,11 +150,11 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
 
   return {
     store,
+    updatePropertyFromInput,
     followingAdd,
     exchangeInfoRefresh,
     followingAddPriceAlert,
     followingRemovePriceAlert,
-    priceHistoryUpdate,
     priceHistoryGetMeasurement,
   };
 };
