@@ -28,7 +28,11 @@ const ExchangeInfo = ({ storeAndActions }) => (
         expand={true}
       >
         {getScannedSymbols(storeAndActions.store).map((symbol) => (
-          <TableRow key={symbol.symbol}>
+          <TableRow
+            key={symbol.symbol}
+            data={symbol}
+            filter={["symbol", "permissions"]}
+          >
             <TableCell>
               <Symbol symbol={symbol} storeAndActions={storeAndActions} />
             </TableCell>

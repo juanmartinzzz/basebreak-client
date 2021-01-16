@@ -12,7 +12,7 @@ import {
 import IconButton from "../IconButton";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { Search } from "@material-ui/icons";
+import Filters from "./Filters";
 
 const rowsLimited = 10;
 
@@ -44,6 +44,22 @@ const Table = ({
   const childrenList = Array.isArray(children) ? children : [children];
   const [expanded, setExpanded] = useState(expand);
   const [limited, setLimited] = useState(limit);
+  const [filter, setFilter] = useState("");
+  const [exclude, setExclude] = useState("");
+
+  const filteredChildrenList = childrenList.filter(({ props }) => {
+    if (!props || !props.data) {
+      return true;
+    }
+
+    const stringifiedProperties = props.filter
+      .reduce((previous, property) => previous + "-" + props.data[property], "")
+      .toLowerCase();
+    return (
+      stringifiedProperties.includes(filter.toLowerCase()) &&
+      (exclude === "" || !stringifiedProperties.includes(exclude.toLowerCase()))
+    );
+  });
 
   return (
     <Fragment>
@@ -76,17 +92,22 @@ const Table = ({
             </TableRow>
           )}
 
-          <Search />
+          <Filters
+            filter={filter}
+            setFilter={setFilter}
+            exclude={exclude}
+            setExclude={setExclude}
+          />
         </TableHead>
 
         {expanded && (
           <TableBody>
-            {childrenList
-              .slice(0, limited ? rowsLimited : childrenList.length)
+            {filteredChildrenList
+              .slice(0, limited ? rowsLimited : filteredChildrenList.length)
               .map((child) => child)}
 
             <LimitedToggleRow
-              childrenList={childrenList}
+              childrenList={filteredChildrenList}
               limited={limited}
               setLimited={setLimited}
             />
