@@ -1,4 +1,3 @@
-import { dark } from "@material-ui/core/styles/createPalette";
 import {
   setLocalStorageItem,
   getLocalStorageItemV2,
@@ -11,6 +10,7 @@ export const initialStateStore = {
   },
   exchangeInfo: {
     symbols: [],
+    quoteAssets: [],
   },
   priceHistory: {
     maxMeasurementsPerSymbol: 200,
@@ -138,6 +138,13 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     });
   };
 
+  const followingRemove = (symbol) => () => {
+    const newFollowing = store.following;
+    delete newFollowing[symbol];
+
+    updateProperty("following", newFollowing);
+  };
+
   const followingAddPriceAlert = (symbol, value, direction) => () => {
     const newPriceAlert = {
       id: createToken({ length: 6 }),
@@ -202,6 +209,7 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     store,
     updatePropertyFromInput,
     followingAdd,
+    followingRemove,
     exchangeInfoRefresh,
     followingAddPriceAlert,
     followingRemovePriceAlert,

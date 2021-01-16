@@ -39,6 +39,7 @@ const Table = ({
   limit = true,
   expand = true,
   expandable = true,
+  filterable = true,
   titleVariant = "h2",
 }) => {
   const childrenList = Array.isArray(children) ? children : [children];
@@ -92,12 +93,14 @@ const Table = ({
             </TableRow>
           )}
 
-          <Filters
-            filter={filter}
-            setFilter={setFilter}
-            exclude={exclude}
-            setExclude={setExclude}
-          />
+          {filterable && (
+            <Filters
+              filter={filter}
+              setFilter={setFilter}
+              exclude={exclude}
+              setExclude={setExclude}
+            />
+          )}
         </TableHead>
 
         {expanded && (

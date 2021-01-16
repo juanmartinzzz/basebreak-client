@@ -12,7 +12,7 @@ const Alerts = ({ symbol, storeAndActions }) => {
   const { following } = storeAndActions.store;
 
   return (
-    <Table title="Alerts" titleVariant="h4" expand={false}>
+    <Table title="Alerts" titleVariant="h4" expand={false} filterable={false}>
       <TableRow>
         <TableCell>
           <Grid container alignItems="center" justify="space-between">
