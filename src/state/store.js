@@ -1,4 +1,8 @@
-import { setLocalStorageItem, getLocalStorageItemV2 } from "../services/localStorage/localStorage";
+import { dark } from "@material-ui/core/styles/createPalette";
+import {
+  setLocalStorageItem,
+  getLocalStorageItemV2,
+} from "../services/localStorage/localStorage";
 import { createToken } from "../services/tokenGenerator/tokenGenerator";
 
 export const initialStateStore = {
@@ -9,8 +13,8 @@ export const initialStateStore = {
   priceHistory: {
     maxMeasurementsPerSymbol: 200,
     measurementsIntervalSeconds: 120,
-    lastMeasurementsTakenAt: (new Date()).getTime(),
-    ETHBTC: []
+    lastMeasurementsTakenAt: new Date().getTime(),
+    ETHBTC: [],
   },
   alerts: {
     telegramUserId: "",
@@ -19,6 +23,9 @@ export const initialStateStore = {
   },
   following: {},
   scanning: {},
+  theme: {
+    useDarkTheme: false,
+  },
 };
 
 export const getStoreAndActions = ({ storeAndSetStore }) => {
@@ -26,7 +33,7 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
 
   const getStore = () => getLocalStorageItemV2({ name: "store" });
 
-  const updateStoreAndLocalStorage = store => {
+  const updateStoreAndLocalStorage = (store) => {
     setStore(store);
     setLocalStorageItem("store", store);
   };
@@ -35,17 +42,17 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     updateStoreAndLocalStorage({ ...getStore(), [propertyName]: value });
   };
 
-  const callApi = async ({api = "binance", endpoint}) => {
+  const callApi = async ({ api = "binance", endpoint }) => {
     const apis = {
-      binance: "https://api.binance.com/api/v3/"
+      binance: "https://api.binance.com/api/v3/",
     };
 
     const response = await fetch(`${apis[api]}${endpoint}`);
     return await response.json();
-  }
+  };
 
-  /** 
-   * * Rececives input's onChange event as parameter. 
+  /**
+   * * Rececives input's onChange event as parameter.
    * * Input's name has format "storeProperty.internalPropertyName". Example: "priceHistory.maxMeasurementsPerSymbol"
    */
   const updatePropertyFromInput = ({ target }) => {
@@ -54,55 +61,66 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
       ...store[storeProperty],
       [internalProperty]: target.value,
     });
-  }
+  };
 
   /**
    * Price History actions
    */
 
   const priceHistoryGetMeasurement = async () => {
-    const currentTime = (new Date()).getTime();
+    const currentTime = new Date().getTime();
     const { priceHistory } = getStore();
-    const { lastMeasurementsTakenAt, maxMeasurementsPerSymbol, measurementsIntervalSeconds } = priceHistory;
+    const {
+      lastMeasurementsTakenAt,
+      maxMeasurementsPerSymbol,
+      measurementsIntervalSeconds,
+    } = priceHistory;
 
     setTimeout(() => {
       priceHistoryGetMeasurement(store);
     }, 5 * 1000);
 
-    if(currentTime < lastMeasurementsTakenAt + ((measurementsIntervalSeconds) * 1000)) {
+    if (
+      currentTime <
+      lastMeasurementsTakenAt + measurementsIntervalSeconds * 1000
+    ) {
       return;
     }
-    
-    const priceMeasurements = await callApi({endpoint: "ticker/price"});
-    priceMeasurements.map(({symbol, price}) => {
+
+    const priceMeasurements = await callApi({ endpoint: "ticker/price" });
+    priceMeasurements.map(({ symbol, price }) => {
       const floatPrice = parseFloat(price);
-      return priceHistory[symbol] = priceHistory[symbol] ? [...priceHistory[symbol], floatPrice].slice(-maxMeasurementsPerSymbol) : [floatPrice];
-    })
+      return (priceHistory[symbol] = priceHistory[symbol]
+        ? [...priceHistory[symbol], floatPrice].slice(-maxMeasurementsPerSymbol)
+        : [floatPrice]);
+    });
 
     updateProperty("priceHistory", {
       ...priceHistory,
-      lastMeasurementsTakenAt: (new Date()).getTime(),
-    })
-  }
+      lastMeasurementsTakenAt: new Date().getTime(),
+    });
+  };
 
   /**
    * Exchange Info actions
    */
 
   const exchangeInfoRefresh = async () => {
-    const response = await callApi({endpoint: "exchangeInfo"});
+    const response = await callApi({ endpoint: "exchangeInfo" });
 
     // Transform Symbols from Array to Map
     const symbols = {};
-    response.symbols.map(symbol => symbols[symbol.symbol] = symbol);
-    const quoteAssetsWithDuplicates = response.symbols.map(symbol => symbol.quoteAsset);
+    response.symbols.map((symbol) => (symbols[symbol.symbol] = symbol));
+    const quoteAssetsWithDuplicates = response.symbols.map(
+      (symbol) => symbol.quoteAsset
+    );
     const quoteAssets = Array.from(new Set(quoteAssetsWithDuplicates));
 
     updateStoreAndLocalStorage({
       ...initialStateStore,
-      exchangeInfo: {...response, symbols, quoteAssets}
-    })
-  }
+      exchangeInfo: { ...response, symbols, quoteAssets },
+    });
+  };
 
   /**
    * Following actions
@@ -114,9 +132,9 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
       [symbol]: {
         priceAlerts: [],
         ...store.following[symbol],
-      }
-    })
-  }
+      },
+    });
+  };
 
   const followingAddPriceAlert = (symbol, value, direction) => () => {
     const newPriceAlert = {
@@ -131,26 +149,43 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
       [symbol]: {
         ...store.following[symbol],
         priceAlerts: [...store.following[symbol].priceAlerts, newPriceAlert],
-      }
-    })
-  }
+      },
+    });
+  };
 
   const followingRemovePriceAlert = (symbol, id) => () => {
     updateProperty("following", {
       ...store.following,
       [symbol]: {
         ...store.following[symbol],
-        priceAlerts: store.following[symbol].priceAlerts.filter(priceAlert => priceAlert.id !== id),
-      }
-    })
-  }
+        priceAlerts: store.following[symbol].priceAlerts.filter(
+          (priceAlert) => priceAlert.id !== id
+        ),
+      },
+    });
+  };
+
+  /**
+   * Scanning actions
+   */
 
   const scanningToggleAsset = (asset) => () => {
     updateProperty("scanning", {
       ...store.scanning,
       [asset]: !store.scanning[asset],
-    })
-  }
+    });
+  };
+
+  /**
+   * Theme actions
+   */
+  const themeToggleDark = () => {
+    updateProperty("theme", {
+      useDarkTheme: !store.theme.useDarkTheme,
+    });
+
+    window.location.href = window.location.href;
+  };
 
   return {
     store,
@@ -161,5 +196,6 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     followingRemovePriceAlert,
     priceHistoryGetMeasurement,
     scanningToggleAsset,
+    themeToggleDark,
   };
 };
