@@ -9,9 +9,10 @@ import {
   Grid,
   Box,
 } from "@material-ui/core";
-import IconButton from "./IconButton";
+import IconButton from "../IconButton";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import { Search } from "@material-ui/icons";
 
 const rowsLimited = 10;
 
@@ -74,6 +75,8 @@ const Table = ({
               ))}
             </TableRow>
           )}
+
+          <Search />
         </TableHead>
 
         {expanded && (

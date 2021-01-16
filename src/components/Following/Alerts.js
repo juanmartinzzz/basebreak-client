@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Table from "../Global/Table";
+import Table from "../Global/Table/Table";
 import IconButton from "../Global/IconButton";
 import Delete from "@material-ui/icons/Delete";
 import AddCircle from "@material-ui/icons/AddCircle";

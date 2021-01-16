@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, TableRow, TableCell, Grid } from "@material-ui/core";
-import Table from "../Global/Table";
+import Table from "../Global/Table/Table";
 import Symbol from "./Symbol";
 import { priceCrack } from "../../utils/price";
 
