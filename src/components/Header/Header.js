@@ -16,7 +16,14 @@ const Header = ({ storeAndActions }) => (
 
         {storeAndActions.store.exchangeInfo.quoteAssets.slice(0,4).map(quoteAsset => (
           <Grid item key={quoteAsset}>
-            <Button color="secondary" size="small" variant={storeAndActions.store.scanning[quoteAsset] ? "contained" : "outlined"}>{quoteAsset}</Button>
+            <Button 
+              size="small" 
+              color="secondary" 
+              variant={storeAndActions.store.scanning[quoteAsset] ? "contained" : "outlined"}
+              onClick={storeAndActions.scanningToggleAsset(quoteAsset)}
+            >
+              {quoteAsset}
+            </Button>
           </Grid>
         ))}
 

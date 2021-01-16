@@ -18,11 +18,7 @@ export const initialStateStore = {
     priceVariationForAlert: 5,
   },
   following: {},
-  scanning: {
-    btc: false,
-    eth: false,
-    usdt: true,
-  },
+  scanning: {},
 };
 
 export const getStoreAndActions = ({ storeAndSetStore }) => {
@@ -149,6 +145,13 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     })
   }
 
+  const scanningToggleAsset = (asset) => () => {
+    updateProperty("scanning", {
+      ...store.scanning,
+      [asset]: !store.scanning[asset],
+    })
+  }
+
   return {
     store,
     updatePropertyFromInput,
@@ -157,5 +160,6 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     followingAddPriceAlert,
     followingRemovePriceAlert,
     priceHistoryGetMeasurement,
+    scanningToggleAsset,
   };
 };

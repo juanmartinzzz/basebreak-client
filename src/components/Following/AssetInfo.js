@@ -18,10 +18,6 @@ const AssetInfo = ({ storeAndActions, symbol }) => {
           <Typography variant="h4">{symbols[symbol].quoteAsset}</Typography>
         </Grid>
         <Grid item xs={5}>
-          <Typography variant="h6">Readings</Typography>
-          <Typography variant="h4">{priceHistory[symbol] && priceHistory[symbol].length}</Typography>
-        </Grid>
-        <Grid item xs={5}>
           <Typography variant="h6">Price</Typography>
           <Typography variant="h4">{priceIncrease({price: priceHistory[symbol] && priceHistory[symbol].slice(-1)[0]})}</Typography>
         </Grid>

@@ -13,15 +13,15 @@ const LayoutPage = ({ storeAndActions }) => (
     <Box m={8}></Box>
 
     <Box p={2}>
-      <Grid container spacing={2}>
-        <Configuration storeAndActions={storeAndActions} />
+      <Configuration storeAndActions={storeAndActions} />
 
-        <Following storeAndActions={storeAndActions} />
+      <Following storeAndActions={storeAndActions} />
 
-        <PriceHistory storeAndActions={storeAndActions} />
+      <Box m={4}></Box>
 
-        <ExchangeInfo storeAndActions={storeAndActions} />
-      </Grid>
+      <PriceHistory storeAndActions={storeAndActions} />
+
+      <ExchangeInfo storeAndActions={storeAndActions} />
     </Box>
   </CssBaseline>
 );
