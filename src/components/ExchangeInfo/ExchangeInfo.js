@@ -22,7 +22,7 @@ const ExchangeInfo = ({ storeAndActions }) => (
   <Grid item xs={12}>
     <Paper>
       <Table
-        title={`All Pairs in the Exchange ${
+        title={`Tracked pairs: ${
           getScannedSymbols(storeAndActions.store).length
         }`}
         expand={true}

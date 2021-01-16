@@ -38,13 +38,13 @@ export default createMuiTheme({
       fontSize: 18,
     },
     h4: {
-      fontSize: 14,
+      fontSize: 12,
     },
     h5: {
       fontSize: 10,
     },
     h6: {
-      fontSize: 8,
+      fontSize: 7,
     },
   },
 });

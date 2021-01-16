@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Table as MuiTable,
   Typography,
@@ -7,6 +7,7 @@ import {
   TableCell,
   TableBody,
   Grid,
+  Box,
 } from "@material-ui/core";
 import IconButton from "./IconButton";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -44,50 +45,54 @@ const Table = ({
   const [limited, setLimited] = useState(limit);
 
   return (
-    <MuiTable size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell colSpan={99}>
-            <Grid container alignItems="center" justify="space-between">
-              <Grid item>
-                <Typography variant={titleVariant}>{title}</Typography>
-              </Grid>
-
-              {expandable && (
-                <Grid item xs={1}>
-                  <IconButton
-                    Icon={expanded ? ExpandLess : ExpandMore}
-                    onClick={() => setExpanded(!expanded)}
-                  />
-                </Grid>
-              )}
-            </Grid>
-          </TableCell>
-        </TableRow>
-
-        {headers && (
+    <Fragment>
+      <MuiTable size="small">
+        <TableHead>
           <TableRow>
-            {headers.map((header) => (
-              <TableCell>{header}</TableCell>
-            ))}
+            <TableCell colSpan={99}>
+              <Grid container alignItems="center" justify="space-between">
+                <Grid item>
+                  <Typography variant={titleVariant}>{title}</Typography>
+                </Grid>
+
+                {expandable && (
+                  <Grid item xs={1}>
+                    <IconButton
+                      Icon={expanded ? ExpandLess : ExpandMore}
+                      onClick={() => setExpanded(!expanded)}
+                    />
+                  </Grid>
+                )}
+              </Grid>
+            </TableCell>
           </TableRow>
+
+          {headers && (
+            <TableRow>
+              {headers.map((header) => (
+                <TableCell>{header}</TableCell>
+              ))}
+            </TableRow>
+          )}
+        </TableHead>
+
+        {expanded && (
+          <TableBody>
+            {childrenList
+              .slice(0, limited ? rowsLimited : childrenList.length)
+              .map((child) => child)}
+
+            <LimitedToggleRow
+              childrenList={childrenList}
+              limited={limited}
+              setLimited={setLimited}
+            />
+          </TableBody>
         )}
-      </TableHead>
+      </MuiTable>
 
-      {expanded && (
-        <TableBody>
-          {childrenList
-            .slice(0, limited ? rowsLimited : childrenList.length)
-            .map((child) => child)}
-
-          <LimitedToggleRow
-            childrenList={childrenList}
-            limited={limited}
-            setLimited={setLimited}
-          />
-        </TableBody>
-      )}
-    </MuiTable>
+      <Box p={1} />
+    </Fragment>
   );
 };
 
