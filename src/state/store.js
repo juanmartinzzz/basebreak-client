@@ -6,7 +6,9 @@ import {
 import { createToken } from "../services/tokenGenerator/tokenGenerator";
 
 export const initialStateStore = {
-  layout: {},
+  layout: {
+    showConfiguration: true,
+  },
   exchangeInfo: {
     symbols: [],
   },
@@ -187,6 +189,15 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     window.location.href = window.location.href;
   };
 
+  /**
+   * Layour actions
+   */
+  const layoutToggleConfiguration = () =>
+    updateProperty("layout", {
+      ...store.layout,
+      showConfiguration: !store.layout.showConfiguration,
+    });
+
   return {
     store,
     updatePropertyFromInput,
@@ -197,5 +208,6 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     priceHistoryGetMeasurement,
     scanningToggleAsset,
     themeToggleDark,
+    layoutToggleConfiguration,
   };
 };

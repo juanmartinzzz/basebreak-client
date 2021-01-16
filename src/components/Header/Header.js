@@ -38,7 +38,11 @@ const Header = ({ storeAndActions }) => (
           ))}
 
         <Grid item>
-          <IconButton color="secondary" Icon={Settings} />
+          <IconButton
+            color="secondary"
+            Icon={Settings}
+            onClick={storeAndActions.layoutToggleConfiguration}
+          />
         </Grid>
 
         <Grid item>
