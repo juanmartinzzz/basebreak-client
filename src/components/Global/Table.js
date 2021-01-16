@@ -1,19 +1,47 @@
 import React, { useState } from "react";
-import { Table as MuiTable, Typography, TableHead, TableRow, TableCell, TableBody, Grid } from "@material-ui/core";
+import {
+  Table as MuiTable,
+  Typography,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Grid,
+} from "@material-ui/core";
 import IconButton from "./IconButton";
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+
+const rowsLimited = 10;
+
+const LimitedToggleRow = ({ childrenList, limited, setLimited }) => {
+  if (childrenList.length <= rowsLimited) {
+    return null;
+  }
+
+  return (
+    <TableRow>
+      <TableCell onClick={() => setLimited(!limited)}>
+        <Typography align="center">
+          {limited ? "show all" : `show first ${rowsLimited}`}
+        </Typography>
+      </TableCell>
+    </TableRow>
+  );
+};
 
 const Table = ({
-  title, 
-  headers, 
+  title,
+  headers,
   children,
-  expand = true, 
-  expandable = true, 
-  titleVariant = "h2", 
+  limit = true,
+  expand = true,
+  expandable = true,
+  titleVariant = "h2",
 }) => {
   const childrenList = Array.isArray(children) ? children : [children];
   const [expanded, setExpanded] = useState(expand);
+  const [limited, setLimited] = useState(limit);
 
   return (
     <MuiTable size="small">
@@ -27,31 +55,40 @@ const Table = ({
 
               {expandable && (
                 <Grid item xs={1}>
-                  <IconButton Icon={expanded ? ExpandLess : ExpandMore} onClick={() => setExpanded(!expanded)} />
+                  <IconButton
+                    Icon={expanded ? ExpandLess : ExpandMore}
+                    onClick={() => setExpanded(!expanded)}
+                  />
                 </Grid>
               )}
             </Grid>
           </TableCell>
         </TableRow>
-        
+
         {headers && (
           <TableRow>
-            {headers.map(header => (
-              <TableCell>
-                {header}
-              </TableCell>
+            {headers.map((header) => (
+              <TableCell>{header}</TableCell>
             ))}
           </TableRow>
         )}
       </TableHead>
-  
+
       {expanded && (
         <TableBody>
-          {childrenList.map(child => child)}
+          {childrenList
+            .slice(0, limited ? rowsLimited : childrenList.length)
+            .map((child) => child)}
+
+          <LimitedToggleRow
+            childrenList={childrenList}
+            limited={limited}
+            setLimited={setLimited}
+          />
         </TableBody>
       )}
     </MuiTable>
   );
-}
+};
 
 export default Table;
