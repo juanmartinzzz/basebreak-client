@@ -9,10 +9,17 @@ export default createMuiTheme({
   palette: {
     // type: "dark",
     primary: {
-      main: "#3f51b5",
+      main: "#1f2165",
     },
     secondary: {
       main: "#ffc000",
+    },
+  },
+  overrides: {
+    MuiInputBase: {
+      input: {
+        background: "#fff",
+      },
     },
   },
   typography: {

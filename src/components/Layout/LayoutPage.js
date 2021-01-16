@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 import ExchangeInfo from "../ExchangeInfo/ExchangeInfo";
 import Following from "../Following/Following";
 import PriceHistory from "../PriceHistory/PriceHistory";
+import Configuration from "../Configuration/Configuration";
 
 const LayoutPage = ({ storeAndActions }) => (
   <CssBaseline>
@@ -13,6 +14,8 @@ const LayoutPage = ({ storeAndActions }) => (
 
     <Box p={2}>
       <Grid container spacing={2}>
+        <Configuration storeAndActions={storeAndActions} />
+
         <Following storeAndActions={storeAndActions} />
 
         <PriceHistory storeAndActions={storeAndActions} />

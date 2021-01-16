@@ -1,7 +1,8 @@
 import React from "react";
 import { AppBar, Toolbar, Grid, Button } from "@material-ui/core";
-import IconButton from "../Global/IconButton";
 import Refresh from '@material-ui/icons/Refresh';
+import { Settings } from "@material-ui/icons";
+import IconButton from "../Global/IconButton";
 
 const Header = ({ storeAndActions }) => (
   <AppBar position="fixed">
@@ -13,17 +14,13 @@ const Header = ({ storeAndActions }) => (
           </Button>
         </Grid>
 
-        <Grid item>
-          <Button color="secondary" size="small" variant={storeAndActions.store.scanning.btc ? "contained" : "outlined"}>BTC</Button>
-        </Grid>
+        {storeAndActions.store.exchangeInfo.quoteAssets.slice(0,4).map(quoteAsset => (
+          <Grid item key={quoteAsset}>
+            <Button color="secondary" size="small" variant={storeAndActions.store.scanning[quoteAsset] ? "contained" : "outlined"}>{quoteAsset}</Button>
+          </Grid>
+        ))}
 
-        <Grid item>
-          <Button color="secondary" size="small" variant={storeAndActions.store.scanning.eth ? "contained" : "outlined"}>ETH</Button>
-        </Grid>
-
-        <Grid item>
-          <Button color="secondary" size="small" variant={storeAndActions.store.scanning.usdt ? "contained" : "outlined"}>USDT</Button>
-        </Grid>
+        <Grid item><IconButton color="secondary" Icon={Settings} /></Grid>
       </Grid>
     </Toolbar>
   </AppBar>

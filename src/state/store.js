@@ -10,6 +10,7 @@ export const initialStateStore = {
     maxMeasurementsPerSymbol: 200,
     measurementsIntervalSeconds: 120,
     lastMeasurementsTakenAt: (new Date()).getTime(),
+    ETHBTC: []
   },
   alerts: {
     telegramUserId: "",
@@ -53,8 +54,6 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
    */
   const updatePropertyFromInput = ({ target }) => {
     const [storeProperty, internalProperty] = target.name.split(".");
-    console.log("--storeProperty", storeProperty)
-    console.log("--internalProperty", internalProperty)
     updateProperty(storeProperty, {
       ...store[storeProperty],
       [internalProperty]: target.value,
@@ -100,10 +99,12 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     // Transform Symbols from Array to Map
     const symbols = {};
     response.symbols.map(symbol => symbols[symbol.symbol] = symbol);
+    const quoteAssetsWithDuplicates = response.symbols.map(symbol => symbol.quoteAsset);
+    const quoteAssets = Array.from(new Set(quoteAssetsWithDuplicates));
 
     updateStoreAndLocalStorage({
       ...initialStateStore,
-      exchangeInfo: {...response, symbols}
+      exchangeInfo: {...response, symbols, quoteAssets}
     })
   }
 
