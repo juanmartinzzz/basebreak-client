@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { priceIncrease, priceCrack } from "../../utils/price";
 import { Line, LineChart } from "recharts";
+import Numerical from "../Global/Numerical";
 
 const AssetInfo = ({ storeAndActions, symbol }) => {
   const { priceHistory, exchangeInfo } = storeAndActions.store;
@@ -40,15 +41,21 @@ const AssetInfo = ({ storeAndActions, symbol }) => {
         <Grid item xs={3}>
           <Typography variant="h6">Price</Typography>
           <Typography variant="h4">
-            {priceIncrease({
-              price: priceHistory[symbol] && priceHistory[symbol].slice(-1)[0],
-            })}
+            <Numerical
+              value={priceIncrease({
+                price:
+                  priceHistory[symbol] && priceHistory[symbol].slice(-1)[0],
+              })}
+            />
           </Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography variant="h6">Crack %</Typography>
           <Typography variant="h4" color="primary">
-            {priceCrack({ prices: priceHistory[symbol] })}
+            <Numerical
+              decimal={2}
+              value={priceCrack({ prices: priceHistory[symbol] })}
+            />
           </Typography>
         </Grid>
       </Grid>

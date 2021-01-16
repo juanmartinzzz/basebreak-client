@@ -21,12 +21,7 @@ const getScannedSymbols = (store) =>
 const ExchangeInfo = ({ storeAndActions }) => (
   <Grid item xs={12}>
     <Paper>
-      <Table
-        title={`Tracked pairs: ${
-          getScannedSymbols(storeAndActions.store).length
-        }`}
-        expand={true}
-      >
+      <Table expand={true} title="Tracked pairs">
         {getScannedSymbols(storeAndActions.store).map((symbol) => (
           <TableRow
             key={symbol.symbol}

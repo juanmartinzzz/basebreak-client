@@ -6,13 +6,10 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Grid,
   Box,
 } from "@material-ui/core";
-import IconButton from "../IconButton";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 import Filters from "./Filters";
+import TableTitle from "./TableTitle";
 
 const rowsLimited = 10;
 
@@ -66,32 +63,16 @@ const Table = ({
     <Fragment>
       <MuiTable size="small">
         <TableHead>
-          <TableRow>
-            <TableCell colSpan={99}>
-              <Grid container alignItems="center" justify="space-between">
-                <Grid item>
-                  <Typography variant={titleVariant}>{title}</Typography>
-                </Grid>
-
-                {expandable && (
-                  <Grid item xs={1}>
-                    <IconButton
-                      Icon={expanded ? ExpandLess : ExpandMore}
-                      onClick={() => setExpanded(!expanded)}
-                    />
-                  </Grid>
-                )}
-              </Grid>
-            </TableCell>
-          </TableRow>
-
-          {headers && (
-            <TableRow>
-              {headers.map((header) => (
-                <TableCell>{header}</TableCell>
-              ))}
-            </TableRow>
-          )}
+          <TableTitle
+            title={title}
+            headers={headers}
+            expanded={expanded}
+            expandable={expandable}
+            setExpanded={setExpanded}
+            titleVariant={titleVariant}
+            childrenList={childrenList}
+            filteredChildrenList={filteredChildrenList}
+          />
 
           {filterable && (
             <Filters

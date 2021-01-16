@@ -18,7 +18,7 @@ export const priceCrack = ({ prices = [1] }) => {
   const sum = allPricesExceptLast.reduce((sum, price) => sum + price, 0);
   const average = sum / (prices.length - 1);
 
-  const percentageCrack = ((1 - average / lastPrice) * 100).toFixed(2);
+  const percentageCrack = (1 - average / lastPrice) * 100;
 
-  return parseFloat(percentageCrack);
+  return percentageCrack;
 };

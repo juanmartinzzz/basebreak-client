@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Grid, Button } from "@material-ui/core";
 import Refresh from "@material-ui/icons/Refresh";
 import { Brightness4, Settings, WbSunny } from "@material-ui/icons";
 import IconButton from "../Global/IconButton";
+import Numerical from "../Global/Numerical";
 
 const Header = ({ storeAndActions }) => (
   <AppBar position="fixed">
@@ -14,7 +15,10 @@ const Header = ({ storeAndActions }) => (
             endIcon={<Refresh />}
             onClick={storeAndActions.exchangeInfoRefresh}
           >
-            Measured: {storeAndActions.store.priceHistory["ETHBTC"].length}
+            Measured:{" "}
+            <Numerical
+              value={storeAndActions.store.priceHistory["ETHBTC"].length}
+            />
           </Button>
         </Grid>
 

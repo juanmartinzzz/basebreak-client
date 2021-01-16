@@ -1,21 +1,14 @@
 import React from "react";
-import {
-  Grid,
-  IconButton,
-  TableCell,
-  TableRow,
-  TextField,
-} from "@material-ui/core";
+import { Grid, TableCell, TableRow, TextField } from "@material-ui/core";
 import { RemoveCircleOutline, Search } from "@material-ui/icons";
+import IconButton from "../IconButton";
 
 const Filters = ({ filter, setFilter, exclude, setExclude }) => (
   <TableRow>
     <TableCell>
       <Grid container alignItems="center">
         <Grid item>
-          <IconButton>
-            <Search />
-          </IconButton>
+          <IconButton Icon={Search} />
         </Grid>
         <Grid item>
           <TextField
@@ -25,9 +18,7 @@ const Filters = ({ filter, setFilter, exclude, setExclude }) => (
           />
         </Grid>
         <Grid item>
-          <IconButton>
-            <RemoveCircleOutline />
-          </IconButton>
+          <IconButton Icon={RemoveCircleOutline} />
         </Grid>
         <Grid item>
           <TextField
