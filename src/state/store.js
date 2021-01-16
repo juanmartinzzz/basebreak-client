@@ -77,7 +77,7 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     if(currentTime < lastMeasurementsTakenAt + ((measurementsIntervalSeconds) * 1000)) {
       return;
     }
-
+    
     const priceMeasurements = await callApi({endpoint: "ticker/price"});
     priceMeasurements.map(({symbol, price}) => {
       const floatPrice = parseFloat(price);
