@@ -2,23 +2,35 @@ import React from "react";
 import { Paper, TableRow, TableCell, Grid } from "@material-ui/core";
 import Table from "../Global/Table";
 import Symbol from "./Symbol";
+import { priceCrack } from "../../utils/price";
 
-const getScannedAssetKeys = (store) => (
-  Object.keys(store.exchangeInfo.symbols).filter(key => {
-    const quoteAsset = store.exchangeInfo.symbols[key].quoteAsset;
+const orderSymbols = ({ exchangeInfo, priceHistory }) =>
+  Object.keys(exchangeInfo.symbols)
+    .map((symbol) => exchangeInfo.symbols[symbol])
+    .sort(
+      (a, b) =>
+        priceCrack({ prices: priceHistory[a.symbol] }) >=
+        priceCrack({ prices: priceHistory[b.symbol] })
+    );
 
-    return store.scanning[quoteAsset];
-  })
-)
+const getScannedSymbols = (store) =>
+  orderSymbols(store).filter((symbol) => {
+    return store.scanning[symbol.quoteAsset];
+  });
 
 const ExchangeInfo = ({ storeAndActions }) => (
   <Grid item xs={12}>
     <Paper>
-      <Table title={`All Pairs in the Exchange ${getScannedAssetKeys(storeAndActions.store).length}`} expand={false}>
-        {getScannedAssetKeys(storeAndActions.store).map(key => (
-          <TableRow key={key}>
+      <Table
+        title={`All Pairs in the Exchange ${
+          getScannedSymbols(storeAndActions.store).length
+        }`}
+        expand={true}
+      >
+        {getScannedSymbols(storeAndActions.store).map((symbol) => (
+          <TableRow key={symbol.symbol}>
             <TableCell>
-              <Symbol symbol={storeAndActions.store.exchangeInfo.symbols[key]} storeAndActions={storeAndActions} />
+              <Symbol symbol={symbol} storeAndActions={storeAndActions} />
             </TableCell>
           </TableRow>
         ))}
