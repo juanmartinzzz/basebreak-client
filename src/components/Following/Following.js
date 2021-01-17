@@ -11,7 +11,7 @@ const Following = ({ storeAndActions }) => {
       {Object.keys(following).map((symbol) => (
         <Grid item xs={6} md={4} lg={3} key={symbol}>
           <Paper
-            // onClick={() => {}} 
+            // onClick={() => {}}
             onDoubleClick={storeAndActions.followingRemove(symbol)}
           >
             <AssetInfo symbol={symbol} storeAndActions={storeAndActions} />

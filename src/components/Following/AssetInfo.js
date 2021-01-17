@@ -35,7 +35,10 @@ const AssetInfo = ({ storeAndActions, symbol }) => {
           <Typography variant="h4">{symbols[symbol].quoteAsset}</Typography>
         </Grid>
         <Grid item xs={3}>
-          <a href={`https://www.binance.com/en/trade/${symbols[symbol].baseAsset}_${symbols[symbol].quoteAsset}`} target="_blank">
+          <a
+            href={`https://www.binance.com/en/trade/${symbols[symbol].baseAsset}_${symbols[symbol].quoteAsset}`}
+            target="_blank"
+          >
             <Typography variant="h6">Base</Typography>
             <Typography variant="h4">{symbols[symbol].baseAsset}</Typography>
           </a>
