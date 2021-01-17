@@ -109,10 +109,22 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
 
   const exchangeInfoRefresh = async () => {
     const response = await callApi({ endpoint: "exchangeInfo" });
+    const activeSymbols = response.symbols.filter(
+      (symbol) => symbol.status === "TRADING"
+    );
 
-    // Transform Symbols from Array to Map
+    // Transform Symbols Array to Map
     const symbols = {};
-    response.symbols.map((symbol) => (symbols[symbol.symbol] = symbol));
+    activeSymbols.map(
+      (symbol) =>
+        (symbols[symbol.symbol] = {
+          symbol: symbol.symbol,
+          baseAsset: symbol.baseAsset,
+          quoteAsset: symbol.quoteAsset,
+          permissions: symbol.permissions,
+        })
+    );
+
     const quoteAssetsWithDuplicates = response.symbols.map(
       (symbol) => symbol.quoteAsset
     );
