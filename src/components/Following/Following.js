@@ -9,7 +9,7 @@ const Following = ({ storeAndActions }) => {
   return (
     <Grid container spacing={2}>
       {Object.keys(following).map((symbol) => (
-        <Grid item xs={6} md={4} lg={3} key={symbol}>
+        <Grid item xs={6} sm={4} md={3} lg={2} xl={1} key={symbol}>
           <Paper
             // onClick={() => {}}
             onDoubleClick={storeAndActions.followingRemove(symbol)}

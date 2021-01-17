@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { priceIncrease, priceCrack } from "../../utils/price";
 import { Line, LineChart } from "recharts";
@@ -12,11 +12,19 @@ const AssetInfo = ({ storeAndActions, symbol }) => {
   const data = priceHistory[symbol].map((price) => ({
     value: price - minValue,
   }));
+  const targetRef = useRef();
+  const [width, setWidth] = useState(200);
+
+  useLayoutEffect(() => {
+    if (targetRef.current) {
+      setWidth(targetRef.current.offsetWidth - 30);
+    }
+  }, []);
 
   return (
-    <Box p={2}>
+    <Box p={2} ref={targetRef}>
       <LineChart
-        width={200}
+        width={width}
         height={50}
         data={data}
         margin={{ top: 0, bottom: 0, left: 0, right: 0 }}
