@@ -30,7 +30,8 @@ export default createMuiTheme({
   },
   typography: {
     fontSize: 12,
-    fontFamily: ["Julius Sans One"].join(","),
+    fontFamily: ["Palanquin"].join(","),
+    // fontFamily: ["News Cycle"].join(","),
     h1: {
       fontSize: 30,
     },

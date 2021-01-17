@@ -7,20 +7,20 @@ const Filters = ({ filter, setFilter, exclude, setExclude }) => (
   <TableRow>
     <TableCell>
       <Grid container alignItems="center">
-        <Grid item>
+        <Grid item xs={1} align="right">
           <IconButton Icon={Search} />
         </Grid>
-        <Grid item>
+        <Grid item xs={3}>
           <TextField
             size="small"
             value={filter}
             onChange={({ target }) => setFilter(target.value)}
           />
         </Grid>
-        <Grid item>
+        <Grid item xs={1} align="right">
           <IconButton Icon={RemoveCircleOutline} />
         </Grid>
-        <Grid item>
+        <Grid item xs={3}>
           <TextField
             size="small"
             value={exclude}
