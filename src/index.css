@@ -18,3 +18,8 @@ summary {
   vertical-align: baseline;
   background: transparent;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
