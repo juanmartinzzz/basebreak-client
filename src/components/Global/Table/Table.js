@@ -74,8 +74,9 @@ const Table = ({
             filteredChildrenList={filteredChildrenList}
           />
 
-          {filterable && (
+          {filterable && expanded && (
             <Filters
+              title={title}
               filter={filter}
               setFilter={setFilter}
               exclude={exclude}

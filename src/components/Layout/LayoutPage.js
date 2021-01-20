@@ -1,10 +1,10 @@
 import React from "react";
 import { CssBaseline, Box, Grid } from "@material-ui/core";
-import Header from "../Header/Header";
+import Configuration from "../Configuration/Configuration";
 import ExchangeInfo from "../ExchangeInfo/ExchangeInfo";
 import Following from "../Following/Following";
-import PriceHistory from "../PriceHistory/PriceHistory";
-import Configuration from "../Configuration/Configuration";
+import Header from "../Header/Header";
+import Alerts from "../Alerts/Alerts";
 
 const LayoutPage = ({ storeAndActions }) => (
   <CssBaseline>
@@ -13,15 +13,23 @@ const LayoutPage = ({ storeAndActions }) => (
     <Box m={8}></Box>
 
     <Box p={2}>
-      <Configuration storeAndActions={storeAndActions} />
+      <Grid container justify="center" spacing={4}>
+        <Grid item xs={12} md={6}>
+          <Configuration storeAndActions={storeAndActions} />
+        </Grid>
 
-      <Following storeAndActions={storeAndActions} />
+        <Grid item xs={12}>
+          <Following storeAndActions={storeAndActions} />
+        </Grid>
 
-      <Box m={4}></Box>
+        <Grid item xs={12} md={6}>
+          <ExchangeInfo storeAndActions={storeAndActions} />
+        </Grid>
 
-      <PriceHistory storeAndActions={storeAndActions} />
-
-      <ExchangeInfo storeAndActions={storeAndActions} />
+        <Grid item xs={12} md={6}>
+          <Alerts storeAndActions={storeAndActions} />
+        </Grid>
+      </Grid>
     </Box>
   </CssBaseline>
 );

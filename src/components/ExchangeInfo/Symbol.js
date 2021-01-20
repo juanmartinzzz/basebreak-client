@@ -4,6 +4,7 @@ import AddCircle from "@material-ui/icons/AddCircle";
 import IconButton from "../Global/IconButton";
 import { priceCrack } from "../../utils/price";
 import Numerical from "../Global/Numerical";
+import { TrendingUp } from "@material-ui/icons";
 
 const Symbol = ({ symbol, storeAndActions }) => (
   <Grid
@@ -22,6 +23,15 @@ const Symbol = ({ symbol, storeAndActions }) => (
           prices: storeAndActions.store.priceHistory[symbol.symbol],
         })}
       />
+    </Grid>
+
+    <Grid item>
+      <a
+        href={`https://www.binance.com/en/trade/${symbol.baseAsset}_${symbol.quoteAsset}`}
+        target="_blank"
+      >
+        <TrendingUp />
+      </a>
     </Grid>
 
     <Grid item>
