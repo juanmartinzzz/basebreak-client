@@ -15,7 +15,7 @@ const Filters = ({ title, filter, setFilter, exclude, setExclude }) => (
   <TableRow>
     <TableCell>
       <Grid container alignItems="center" spacing={1}>
-        <Grid item xs={0} align="right">
+        <Grid item align="right">
           <IconButton Icon={Search} />
         </Grid>
         <Grid item xs={2}>
@@ -26,16 +26,19 @@ const Filters = ({ title, filter, setFilter, exclude, setExclude }) => (
           />
         </Grid>
         <Grid item xs={1}>
-          {savedFilters[title].filters.map((savedFilter) => (
-            <Chip
-              size="small"
-              label={savedFilter}
-              onClick={() => setFilter(savedFilter)}
-            />
-          ))}
+          {(savedFilters[title] ? savedFilters[title].filters : []).map(
+            (savedFilter) => (
+              <Chip
+                key={savedFilter}
+                size="small"
+                label={savedFilter}
+                onClick={() => setFilter(savedFilter)}
+              />
+            )
+          )}
         </Grid>
 
-        <Grid item xs={0} align="right">
+        <Grid item align="right">
           <IconButton Icon={RemoveCircleOutline} />
         </Grid>
         <Grid item xs={2}>
@@ -46,13 +49,16 @@ const Filters = ({ title, filter, setFilter, exclude, setExclude }) => (
           />
         </Grid>
         <Grid item xs={1}>
-          {savedFilters[title].excludes.map((savedExclude) => (
-            <Chip
-              size="small"
-              label={savedExclude}
-              onClick={() => setExclude(savedExclude)}
-            />
-          ))}
+          {(savedFilters[title] ? savedFilters[title].excludes : []).map(
+            (savedExclude) => (
+              <Chip
+                key={savedExclude}
+                size="small"
+                label={savedExclude}
+                onClick={() => setExclude(savedExclude)}
+              />
+            )
+          )}
         </Grid>
       </Grid>
     </TableCell>

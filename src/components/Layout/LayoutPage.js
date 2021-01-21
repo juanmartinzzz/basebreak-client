@@ -10,7 +10,7 @@ const LayoutPage = ({ storeAndActions }) => (
   <CssBaseline>
     <Header storeAndActions={storeAndActions} />
 
-    <Box m={8}></Box>
+    <Box m={4}></Box>
 
     <Box p={2}>
       <Grid container justify="center" spacing={4}>

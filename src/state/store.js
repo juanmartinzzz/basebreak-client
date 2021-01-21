@@ -3,6 +3,8 @@ import {
   getLocalStorageItemV2,
 } from "../services/localStorage/localStorage";
 import { createToken } from "../services/tokenGenerator/tokenGenerator";
+import { getScannedSymbols } from "../utils/assets";
+import { priceCrack } from "../utils/price";
 
 export const initialStateStore = {
   layout: {
@@ -19,6 +21,7 @@ export const initialStateStore = {
     ETHBTC: [],
   },
   alerts: {
+    soundForAlert: "",
     telegramUserId: "",
     alertIntervalMinutes: 5,
     priceVariationForAlert: 5,
@@ -62,6 +65,38 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     updateProperty(storeProperty, {
       ...store[storeProperty],
       [internalProperty]: target.value,
+    });
+  };
+
+  /**
+   * Alerts actions
+   */
+
+  const alertsAnalize = () => {
+    const { alerts, scanning, exchangeInfo, priceHistory } = store;
+    setTimeout(alertsAnalize, alerts.alertIntervalMinutes * 1000 * 60);
+
+    const scannedSymbols = getScannedSymbols({
+      symbols: exchangeInfo.symbols,
+      scanning,
+    });
+    const priceCracks = scannedSymbols.map((symbol) =>
+      priceCrack({ prices: priceHistory[symbol] })
+    );
+
+    // If there's a Crack lower than the value to alert
+    if (Math.min(...priceCracks) < alerts.priceVariationForAlert * -1) {
+      const audio = new Audio(`sound/${alerts.soundForAlert}`);
+      audio.play();
+    }
+  };
+
+  const alertsChangeSound = (filename) => {
+    const audio = new Audio(`sound/${filename}`);
+    audio.play();
+    updateProperty("alerts", {
+      ...store.alerts,
+      soundForAlert: filename,
     });
   };
 
@@ -222,6 +257,8 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     updatePropertyFromInput,
     followingAdd,
     followingRemove,
+    alertsAnalize,
+    alertsChangeSound,
     exchangeInfoRefresh,
     followingAddPriceAlert,
     followingRemovePriceAlert,

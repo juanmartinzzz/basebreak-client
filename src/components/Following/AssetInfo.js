@@ -7,7 +7,6 @@ import Numerical from "../Global/Numerical";
 const AssetInfo = ({ storeAndActions, symbol }) => {
   const { priceHistory, exchangeInfo } = storeAndActions.store;
   const { symbols } = exchangeInfo;
-  // const minValue = priceHistory[symbol].map(a=>a).sort((a, b) => a > b)[0];
   const minValue = Math.min(...priceHistory[symbol]);
   const data = priceHistory[symbol].map((price) => ({
     value: price - minValue,
