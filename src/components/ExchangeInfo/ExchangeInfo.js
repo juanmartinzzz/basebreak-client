@@ -2,14 +2,13 @@ import React from "react";
 import { Paper, TableRow, TableCell, Grid } from "@material-ui/core";
 import Table from "../Global/Table/Table";
 import Symbol from "./Symbol";
-import { priceCrack } from "../../utils/price";
 import { getScannedSymbols } from "../../utils/assets";
 
-const orderSymbols = ({ exchangeInfo, scanning, priceHistory }) =>
+const orderSymbols = ({ exchangeInfo, scanning, priceCracks }) =>
   getScannedSymbols({ symbols: exchangeInfo.symbols, scanning }).sort(
     (a, b) =>
-      priceCrack({ prices: priceHistory[a] }) >=
-      priceCrack({ prices: priceHistory[b] })
+      priceCracks[a] >=
+      priceCracks[b]
   );
 
 const ExchangeInfo = ({ storeAndActions }) => (

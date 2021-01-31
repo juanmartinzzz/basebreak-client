@@ -2,7 +2,6 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import AddCircle from "@material-ui/icons/AddCircle";
 import IconButton from "../Global/IconButton";
-import { priceCrack } from "../../utils/price";
 import Numerical from "../Global/Numerical";
 import { TrendingUp } from "@material-ui/icons";
 
@@ -19,9 +18,7 @@ const Symbol = ({ symbol, storeAndActions }) => (
       <Numerical
         type="%"
         decimal={2}
-        value={priceCrack({
-          prices: storeAndActions.store.priceHistory[symbol.symbol],
-        })}
+        value={storeAndActions.store.priceCracks[symbol.symbol]}
       />
     </Grid>
 
@@ -37,6 +34,7 @@ const Symbol = ({ symbol, storeAndActions }) => (
     <Grid item>
       <IconButton
         Icon={AddCircle}
+        disabled={!!storeAndActions.store.following[symbol.symbol]}
         onClick={storeAndActions.followingAdd(symbol.symbol)}
       />
     </Grid>

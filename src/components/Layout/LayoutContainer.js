@@ -15,6 +15,7 @@ const LayoutContainer = () => {
     })
   );
   const storeAndActions = getStoreAndActions({ storeAndSetStore });
+  console.log("--store", storeAndActions.store)
 
   useEffect(() => {
     storeAndActions.priceHistoryGetMeasurement();

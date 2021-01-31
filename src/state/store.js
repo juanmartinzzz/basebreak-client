@@ -14,6 +14,7 @@ export const initialStateStore = {
     symbols: [],
     quoteAssets: [],
   },
+  priceCracks: {},
   priceHistory: {
     maxMeasurementsPerSymbol: 200,
     measurementsIntervalSeconds: 120,
@@ -25,6 +26,10 @@ export const initialStateStore = {
     telegramUserId: "",
     alertIntervalMinutes: 5,
     priceVariationForAlert: 5,
+  },
+  autoFollow: {
+    on: false,
+    crackPercentage: 5, 
   },
   following: {},
   scanning: {},
@@ -73,7 +78,7 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
    */
 
   const alertsAnalize = () => {
-    const { alerts, scanning, exchangeInfo, priceHistory } = store;
+    const { alerts, scanning, exchangeInfo, priceHistory } = getStore();
     setTimeout(alertsAnalize, alerts.alertIntervalMinutes * 1000 * 60);
 
     const scannedSymbols = getScannedSymbols({
@@ -136,7 +141,25 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
       ...priceHistory,
       lastMeasurementsTakenAt: new Date().getTime(),
     });
+
+    updatePriceCracks();
   };
+
+  /**
+   * Price Cracks actions
+   */
+
+  const updatePriceCracks = () => {
+    const { scanning, exchangeInfo, priceHistory } = getStore();
+    const scannedSymbols = getScannedSymbols({
+      symbols: exchangeInfo.symbols,
+      scanning,
+    });
+    const priceCracks = {};
+    scannedSymbols.map((symbol) => priceCracks[symbol] = priceCrack({ prices: priceHistory[symbol] }));
+
+    updateProperty("priceCracks", priceCracks);
+  }
 
   /**
    * Exchange Info actions
@@ -168,6 +191,18 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     updateStoreAndLocalStorage({
       ...initialStateStore,
       exchangeInfo: { ...response, symbols, quoteAssets },
+    });
+  };
+
+  /**
+   * Autofollow actions
+   */
+
+  const autoFollowToggle = () => {
+    updateProperty("autoFollow", {
+      ...store.autoFollow,
+      on: !store.autoFollow.on,
+      crackPercentage: 6,
     });
   };
 
@@ -258,6 +293,7 @@ export const getStoreAndActions = ({ storeAndSetStore }) => {
     followingAdd,
     followingRemove,
     alertsAnalize,
+    autoFollowToggle,
     alertsChangeSound,
     exchangeInfoRefresh,
     followingAddPriceAlert,
