@@ -7,7 +7,7 @@ const NumericalText = styled.div`
 `;
 
 const Numerical = ({ value, decimal, type = "" }) => {
-  const stringValue = decimal ? value.toFixed(decimal) : value + "";
+  const stringValue = decimal ? parseFloat(value).toFixed(decimal) : value + "";
 
   return (
     <NumericalText>
