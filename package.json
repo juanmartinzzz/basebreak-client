@@ -7,12 +7,12 @@
     "@material-ui/icons": "^4.9.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^5.0.1",
     "recharts": "^2.0.3",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
-    "compress-images": "^1.9.2"
+    "compress-images": "^2.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
